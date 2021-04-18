@@ -1,0 +1,12 @@
+Premiere etape : En faisant un ls dans le home on remarque une fichier .pcap
+-> On transfert le fichier level02.pcap sur une VM Kali Linux
+
+Deuxieme etape : On utilise Wireshark pour analyser le reseau
+-> On filtre avec les protocoles tcp
+-> On utilise l'option Follow -> TCP Stream et on sauvegarde le fichier en tant que tcpstream (fichier present dans ce repertoire)
+
+Troisieme etape : Lecture du fichier -> cat tcpstream
+-> On remarque le terme Password suivi de differents caracteres que l'on va noter.Les "." correspondent a des del : en effet en se referant sur Wireshark les points retournent la valeur 7f qui correspond a 127 en base 10 et donc au del de la table ascii.
+-> su flag02 Password: ft_waNDReL0L
+
+getflag : kooda2puivaav1idi4f57q8iq

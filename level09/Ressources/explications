@@ -1,0 +1,25 @@
+Nous sommes ici en presence, comme dans le level08 d'un binaire level09 et d'un fichier token
+En executant le binaire ./level09 il nous faut un argument.
+cat token : f4kmm6p|=�p�n��DB�Du{��
+./level09 token : tpmhr ?? 
+
+Le resultat de l'execution du binaire n'a aucun rapport avec le cotenu de token cependant il y a le meme nombre de caractere dans token que dans tpmhr. Le binaire ne prend donc pas un fichier en argument mais une string
+
+Faisons donc d'autres essais : 
+./level09 toto : tpvr
+./level09 aaaa : abcd
+./level09 bbbb : bcde
+
+Nous remarquons donc une logique dans ce binaire, a chaque caractere de la string, ce dernier est implemente de la valeur de sa position.
+
+Lorsque nous faisons un ltrace ./level09 aaaa nous remarquons : puts("You should not reverse this"You should not reverse this
+
+Il va donc falloir creer un programme qui va faire l'inverse du binaire level09 mais dans un repertoire qu'on aura cree dans /tmp
+
+Le binaire est celui present dans ce repertoire sous le nom de level09.py et nous donne un flag qui est : f3iji1ju5yuevaus41q1afiuq
+
+su flag09
+Password : f3iji1ju5yuevaus41q1afiuq
+getflag
+Check flag.Here is your token : s5cAJpM8ev6XHw998pRWG728z
+

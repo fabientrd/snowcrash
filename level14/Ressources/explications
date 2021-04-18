@@ -1,0 +1,60 @@
+Nous voici sur le dernier level du projet. Nous n'avons aucun binaire et toutes les recherches sur level14 ou flag14 grace a find ne donnent rien. Il va donc surement falloir exploiter directement le binaire getflag
+
+
+En ressource nous avons mis les resultats de differentes commandes que nous allons utiliser pour faire notre manipulation afin de ne pas trop en mettre dans les explications.
+
+Lorsque nous faisons ltrace /bin/getflag nous constatons un appel a la focntion ptrace avec un retour egal a -1 ce qui correspont a une erreur. Essayons donc de set la valeur de retour de ptrace a 0 ce qui correspond a un succes.
+
+Pour cela nous allons utiliser gdb getflag :
+gdb getflag
+r
+Starting program: /bin/getflag
+You should not reverse this
+[Inferior 1 (process 2286) exited with code 01]
+
+Il nous faut trouver l'adresse de ptrace -> cat objdump_txt | grep ptrace :
+08048540 <ptrace@plt>:
+ 8048989:	e8 b2 fb ff ff       	call   8048540 <ptrace@plt>
+L'adresse de ptrace est donc 08048989. Il va falloir set un breakpoint sur cet adresse afin de modifier la valeur de retour.
+
+gdb getflag
+b *0x8048989
+r
+ni
+set $eax=0
+c
+Continuing.
+Check flag.Here is your token :
+Nope there is no token here for you sorry. Try again :)
+[Inferior 1 (process 2293) exited normally]
+
+Le retour a changé. Afin d'executer le binaire getflag directement sur le terminal, il fallait auparavant etre log comme flagXX. De plus le binaire utilise getuid. En faisant cat /etc/passwd nous voyons que l'uid de flag14 est 3014
+Essayon comme au niveau precedent de set l'uid a 3014 en recodant getuid.
+
+Injection Linked lib detected exit.. 
+
+Comme prevu il doit y avoir un check contre les injections dynamiques .. et il est impossible de set un breakpoint sur getenv pour changer la valeur de retour.
+
+Essayons alors de changer le retour de getuid directement ?? Grace a objdump cherchons les appels a getuid : 
+objdump -D getflag | grep getuid
+080484b0 <getuid@plt>:
+ 8048afd:	e8 ae f9 ff ff       	call   80484b0 <getuid@plt>
+Ensuite il faut faire comme precedemment avec un nouveau breakpoint a l'adresse de getuid.
+
+gdb getflag
+b *0x8048989
+b *0x8048afd
+r
+ni
+set $eax=0
+c
+ni
+set $eax=3014
+c
+
+Check flag.Here is your token : 7QiHafiNa3HVozsaXkawuYrTstxbpABHD8CPnHJ
+
+Et voila nous avons crack getflag :)
+
+
+

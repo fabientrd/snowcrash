@@ -1,0 +1,17 @@
+Premiere etape : cat /etc/passwd
+-> On cherche le flag01
+
+Deuxieme etape : On remarque que la partie mot de passe est un hash
+-> "42hDRfypTqqnw"
+
+Troisieme etape : J'utilise une VM Kali Linux afin d'utiliser l'outil John the Riper pour cracker le hash
+
+Quatrieme etape sur la VM Kali : echo "flag01:42hDRfypTqqnw" > flag01 || john  -show flag01
+-> flag01:abcdefg
+
+
+Cinquieme etape : su flag01 -> password : abcdefg
+Don't forget to launch getflag !
+-> getflag -> f2av5il02puano7naaf6adaaf
+-> su level02 Password: f2av5il02puano7naaf6adaaf
+level02@SnowCrash:~$

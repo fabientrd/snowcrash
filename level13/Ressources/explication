@@ -1,0 +1,37 @@
+Nous sommes ici en presence d'un binaire level13. En executant ce binaire nous avons : UID 2013 started us but we we expect 4242
+En verifiant grace a id nous voyons que notre uid est bel et bien 2013.
+Essayons de changer l'uid. Pour cela nous allons essayer de faire une injection dynamique qui consiste a creer une librairie partager et a definir son chemin comme le chemin qu'il faut emprunter pour executer des fonctions.
+
+Ici nous allons juste ecrire un fichier en c qui va recoder getuid, geteuid, setuid:
+mkdir /tmp/mylib/
+vim /tmp/mylib/lib.c
+Ce fichier c contiendra la code suivant :
+
+int getuid(){
+	return (4242);
+}
+
+int geteuid(){
+	return (4242);
+}
+
+int setuid(){
+	return (4242);
+}
+
+Il faut ensuite compiler le fichier c en une librairie partagee : 
+cd /tmp/mylib
+gcc -shared -o mylib.so mylib.c
+
+En passant un nm sur mylib.so nous voyons bien la presence de nos 3 fonctions tout en bas du retour
+Cependant notre uid n'a pas encore changé. Afin que notre librairie soit utilisee a la place de la librairie standard nous allons devoir set la variable d'environnement LD_PRELOAD vers notre librairie :
+export LD_PRELOAD=$PWD/mylib.so
+
+id : uid=4242 gid=2013(level13) groups=100(users),2013(level13)
+Bingo notre uid est bel et bien set a 4242
+En executant directement notre binaire le retour n'est pas celui escompté
+Cependant en utilisant ltrace ./level13 pour decomposer le retour la verification est bonne et le token nous est retourné : 2A31L79asukciNyi8uppkEuSx
+
+
+
+

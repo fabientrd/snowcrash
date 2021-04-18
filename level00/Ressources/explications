@@ -1,0 +1,20 @@
+Premiere etape : cat /etc/passwd (fichier ou sont stock les informations sur les mdp)
+-> On cherche flag00
+
+Deuxieme etape : On cherche les fichiers qui appartiennent au user flag00:
+find / -user flag00 2> /dev/null (on redirige les erreurs vers /dev/null)
+On a comme resultats 
+
+Troisieme etape : cat /usr/sbin/john
+-> on obtient cdiiddwpgswtgt
+-> on essaye de se log -> su flag00 Password : cdiiddwpgswtgt -> su: Authentication failure
+-> ce mdp ne ressemble pas a un hash il s'agit probablement d'un  ROT
+
+Quatrieme etape : on utilise une app comme d.code.fr ou ./rot.py cdiiddwpgswtgt (programme python basique pour casser les ROT)
+-> en regardant les resultats on voit une string relativement valable : nottoohardhere
+-> su flag00 Password : nottoohardhere // Don't forget to launch getflag
+
+Cinquieme etape : getflag
+-> Check flag.Here is your token : x24ti5gi3x0ol2eh4esiuxias
+-> su level01 Passwrod : x24ti5gi3x0ol2eh4esiuxias
+level01@SnowCrash:~`

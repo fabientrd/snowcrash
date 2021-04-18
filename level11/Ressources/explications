@@ -1,0 +1,13 @@
+Nous sommes ici en presence d'un fichier lua, lua qui est une langage de prog pour developper des extensions pour les applications.
+Analysons ce binaire, quand on lance le binaire directement, nous avons: adress already in use
+Que contient ce fichier ? Ayant les droits de lecture nous pouvons afficher le fichier lua. 
+Que fais ce binaire. Il va initialiser un socket et le bind a l'adresse 127.0.0.1 via le port 5151. La partie client = server:accept() attend une connexion a distance sur l'objet server et renvoie un objet client.
+Essayons donc de nous connecter au serveur grace a nc 127.0.0.1 5151
+-> Password:  --- Le cleint va recevoir la chaine Password et attendra un retour dans les 60 secondes qui sera assigné a la varible l. Cette variable sera ensuite passe a la fonction hash et assigne a h.
+
+Que fait la fonction hash ? On voit dansn la premiere ligne de la fonction un appel a io.popen. io.popen est utilise afin d'executer une commande passee en argument.
+L'exploit se trouve ici, essayons de faire executer la commande getflag au programme et d'afficher le retour dans un fichier en passant a Password `getflag` > /tmp/kento
+Nous avons bien un Erf nope.. donc : cat /tmp/kento :
+Check flag.Here is your token : fa6v5ateaw21peobuub8ipe6s
+
+
