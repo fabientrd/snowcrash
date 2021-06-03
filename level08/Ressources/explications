@@ -9,7 +9,7 @@ printf("You may not access '%s'\n", "token"You may not access 'token'
 exit(1 <unfinished ...>
 +++ exited (status 1) +++
 
-La focntion strstr va comparer le nom du fichier a la string token avant de print quelaue chose, en l'occurence ici le fait qu'on ne puisse pas acceder a token.
+La fonction strstr va comparer le nom du fichier a la string token avant de print quelque chose, en l'occurence ici le fait qu'on ne puisse pas acceder a token.
 
 Essayons de creer un autre fichier avec un autre nom dans le repertoire /tmp/
 Quand nous creeons directement un lien symbolique dans ce repertoire, le binaire nous dit que le fichier n'existe pas
@@ -25,6 +25,6 @@ Password: quif5eloekouj29ke0vouxean
 getflag
 Check flag.Here is your token : 25749xKZ8L7DkSCwJkT9dyv6f
 
-Afin de bypasser l'acces a un fichier il est possible de creer des liens symboliques qui auront le meme contenu que ce dernier
+Afin de bypasser l'acces a un fichier avec un verification uniquement sur le nom, il est possible de creer des liens symboliques qui auront le meme contenu que ce dernier
 
 

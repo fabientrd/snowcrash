@@ -1,6 +1,6 @@
 Nous sommes ici en presence d'un binaire perl. Il prend deux argument mais ne traite que le premier ($xx = _[0]). t va mettre en majuscule tous les caracteres du premier argument et supprimer tout ce qu'il y a apres le premier espace. Ensuite il sera executé. 
 
-Il nous faut donc ecrire un petit script qui execute la commande getflag et qui redirige la sortie vers un nouveau fichier. Ce script devrai etre present dans un fichier qui repond aux critere de $xx. Il sera situé dans /tmp/SCRIPT: 
+Il nous faut donc ecrire un petit script qui execute la commande getflag et qui redirige la sortie vers un nouveau fichier. Ce script devrait etre present dans un fichier qui repond aux critere de $xx. Il sera situé dans /tmp/SCRIPT: 
 #!/bin/sh 
 getflag > /tmp/flag
 

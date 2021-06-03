@@ -1,4 +1,6 @@
-Lorsqu'on se log nous pouvons voir un message nous disant You have new mail
+Lorsqu'on se log depuis le level04 en ssh nous n'avons aucun fichier present.
+Lorsqu'on se log depuis un autre terminal, nous pouvons voir un message nous disant You have new mail
+Nous pouvons retrouver cela grace a find / -name level05 2> /dev/null
 
 On va afficher les mails avec la commande cat /var/mail/$USER et on obtient : */2 * * * * su -c "sh /usr/sbin/openarenaserver" - flag05
 Il s'agit d'un cron job qui s'execute toutes les deux minutes et qui execute le script present dans le fichier /usr/sbin/openarenaserver

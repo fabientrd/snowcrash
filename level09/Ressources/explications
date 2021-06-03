@@ -14,7 +14,7 @@ Nous remarquons donc une logique dans ce binaire, a chaque caractere de la strin
 
 Lorsque nous faisons un ltrace ./level09 aaaa nous remarquons : puts("You should not reverse this"You should not reverse this
 
-Il va donc falloir creer un programme qui va faire l'inverse du binaire level09 mais dans un repertoire qu'on aura cree dans /tmp
+Il va donc falloir creer un programme qui va faire l'inverse du binaire level09. 
 
 Le binaire est celui present dans ce repertoire sous le nom de level09.py et nous donne un flag qui est : f3iji1ju5yuevaus41q1afiuq
 

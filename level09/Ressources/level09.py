@@ -2,11 +2,13 @@
 
 import sys
 
+f = open(sys.argv[1], "r")
+s = f.read()
+ret = ""
 i = 0
-s = ""
-arg = sys.argv[1]
-while i != len(arg):
-   ch = ord(arg[i]) - i
-   s =  s + chr(ch)
-   i += 1
-print(s)
+while i < len(s) - 1:
+    print(ord(s[i]))
+    ch = ord(s[i]) - i
+    ret += unichr(ch)
+    i += 1
+print(ret)

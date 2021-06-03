@@ -55,3 +55,5 @@ su flag10
 Password: woupa2yuojeeaaed06riuj63c
 getflag
 Check flag.Here is your token : feulo4b72j7edeahuete3no7c
+
+Il s'agit ici en fait d'une race condition, en effet le binaire level10 va tenter d'ouvrir le fichier au moment ou il a ete crée mais que les droits d'acces n'ont pas encore ete set.
